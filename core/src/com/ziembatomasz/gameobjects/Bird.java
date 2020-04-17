@@ -3,10 +3,12 @@ package com.ziembatomasz.gameobjects;
 import com.badlogic.gdx.math.Vector2;
 
 public class Bird {
+
     private Vector2 position;
     private Vector2 velocity;
     private Vector2 acceleration;
-    private float rotation;
+
+    private float rotation; // For handling bird rotation
     private int width;
     private int height;
 
@@ -28,6 +30,32 @@ public class Bird {
 
         position.add(velocity.cpy().scl(delta));
 
+        // Rotate counterclockwise
+        if (velocity.y < 0) {
+            rotation -= 600 * delta;
+
+            if (rotation < -20) {
+                rotation = -20;
+            }
+        }
+
+        // Rotate clockwise
+        if (isFalling()) {
+            rotation += 480 * delta;
+            if (rotation > 90) {
+                rotation = 90;
+            }
+
+        }
+
+    }
+
+    public boolean isFalling() {
+        return velocity.y > 110;
+    }
+
+    public boolean shouldntFlap() {
+        return velocity.y > 70;
     }
 
     public void onClick() {
