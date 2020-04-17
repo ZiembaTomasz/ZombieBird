@@ -5,20 +5,28 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.ziembatomasz.gameworld.GameRenderer;
 import com.ziembatomasz.gameworld.GameWorld;
+import com.ziembatomasz.zbhelpers.InputHandler;
 
 public class GameScreen implements Screen {
     private GameWorld world;
     private GameRenderer renderer;
 
     public GameScreen() {
-        Gdx.app.log("GameScreen", "Attached");
-        world = new GameWorld();
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+        float gameWidth = 136;
+        float gameHeight = screenHeight / (screenWidth / gameWidth);
+
+        int midPointY = (int) (gameHeight / 2);
+
+        world = new GameWorld(midPointY);
         renderer = new GameRenderer(world);
+
+        Gdx.input.setInputProcessor(new InputHandler(world.getBird()));
     }
 
     @Override
     public void render(float delta) {
-        Gdx.app.log("GameScreen", "Attached");
         world.update(delta);
         renderer.render();
     }
@@ -50,6 +58,5 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        // Leave blank
     }
 }
