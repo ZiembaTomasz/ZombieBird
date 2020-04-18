@@ -21,18 +21,23 @@ public class Scrollable {
     public void update(float delta) {
         position.add(velocity.cpy().scl(delta));
 
-
+        // If the Scrollable object is no longer visible:
         if (position.x + width < 0) {
             isScrolledLeft = true;
         }
     }
 
-
+    // Reset: Should Override in subclass for more specific behavior.
     public void reset(float newX) {
         position.x = newX;
         isScrolledLeft = false;
     }
 
+    public void stop() {
+        velocity.x = 0;
+    }
+
+    // Getters for instance variables
     public boolean isScrolledLeft() {
         return isScrolledLeft;
     }
