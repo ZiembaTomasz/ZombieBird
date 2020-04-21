@@ -2,9 +2,9 @@ package com.ziembatomasz.gameobjects;
 
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
+import com.ziembatomasz.zbhelpers.AssetLoader;
 
 public class Bird {
-
 
     private Vector2 position;
     private Vector2 velocity;
@@ -13,6 +13,8 @@ public class Bird {
     private float rotation;
     private int width;
     private int height;
+
+    private boolean isAlive;
 
     private Circle boundingCircle;
 
@@ -23,6 +25,7 @@ public class Bird {
         velocity = new Vector2(0, 0);
         acceleration = new Vector2(0, 460);
         boundingCircle = new Circle();
+        isAlive = true;
     }
 
     public void update(float delta) {
@@ -49,7 +52,7 @@ public class Bird {
         }
 
         // Rotate clockwise
-        if (isFalling()) {
+        if (isFalling() || !isAlive) {
             rotation += 480 * delta;
             if (rotation > 90) {
                 rotation = 90;
@@ -64,11 +67,23 @@ public class Bird {
     }
 
     public boolean shouldntFlap() {
-        return velocity.y > 70;
+        return velocity.y > 70 || !isAlive;
     }
 
     public void onClick() {
-        velocity.y = -140;
+        if (isAlive) {
+            AssetLoader.flap.play();
+            velocity.y = -140;
+        }
+    }
+
+    public void die() {
+        isAlive = false;
+        velocity.y = 0;
+    }
+
+    public void decelerate() {
+        acceleration.y = 0;
     }
 
     public float getX() {
@@ -93,5 +108,9 @@ public class Bird {
 
     public Circle getBoundingCircle() {
         return boundingCircle;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
     }
 }
