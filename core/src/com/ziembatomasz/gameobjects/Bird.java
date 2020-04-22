@@ -6,6 +6,7 @@ import com.ziembatomasz.zbhelpers.AssetLoader;
 
 public class Bird {
 
+
     private Vector2 position;
     private Vector2 velocity;
     private Vector2 acceleration;
@@ -84,6 +85,16 @@ public class Bird {
 
     public void decelerate() {
         acceleration.y = 0;
+    }
+
+    public void onRestart(int y) {
+        rotation = 0;
+        position.y = y;
+        velocity.x = 0;
+        velocity.y = 0;
+        acceleration.x = 0;
+        acceleration.y = 460;
+        isAlive = true;
     }
 
     public float getX() {

@@ -1,6 +1,7 @@
 package com.ziembatomasz.zbhelpers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -13,6 +14,7 @@ public class AssetLoader {
 
     public static Animation<TextureRegion> birdAnimation;
     public static TextureRegion bird, birdDown, birdUp;
+    public static Preferences prefs;
 
     public static TextureRegion skullUp, skullDown, bar;
 
@@ -63,6 +65,13 @@ public class AssetLoader {
         fontData.setScale(.25f, -.25f);
         shadow = new BitmapFont(shadowFontData, (TextureRegion)null, true);
 
+        // Create (or retrieve existing) preferences file
+        prefs = Gdx.app.getPreferences("ZombieBird");
+
+        if (!prefs.contains("highScore")) {
+            prefs.putInteger("highScore", 0);
+        }
+
     }
 
     public static void dispose() {
@@ -76,6 +85,14 @@ public class AssetLoader {
 
         font.dispose();
         shadow.dispose();
+    }
+    public static void setHighScore(int val) {
+        prefs.putInteger("highScore", val);
+        prefs.flush();
+    }
+
+    public static int getHighScore() {
+        return prefs.getInteger("highScore");
     }
 
 }

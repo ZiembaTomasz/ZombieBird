@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import java.util.Random;
 
 public class Pipe extends Scrollable {
+
     private Random r;
 
     private Rectangle skullUp, skullDown, barUp, barDown;
@@ -64,6 +65,11 @@ public class Pipe extends Scrollable {
         // Change the height to a random number
         height = r.nextInt(90) + 15;
         isScored = false;
+    }
+
+    public void onRestart(float x, float scrollSpeed) {
+        velocity.x = scrollSpeed;
+        reset(x);
     }
 
     public Rectangle getSkullUp() {
